@@ -8,6 +8,6 @@ namespace SmartVault.Program.BusinessObjects
 {
     public partial class Document
     {
-        public DateTime createdOn { get; set; }
+        public DateTime CreatedOn { get; set; }
     }
 }
