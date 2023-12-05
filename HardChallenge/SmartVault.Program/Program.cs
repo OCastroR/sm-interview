@@ -1,26 +1,52 @@
-﻿namespace SmartVault.Program
+﻿using Dapper;
+using SmartVault.Program.BusinessObjects;
+using System;
+using System.Data.SQLite;
+using System.IO;
+using System.Linq;
+using System.Reflection.Metadata;
+
+namespace SmartVault.Program
 {
     partial class Program
     {
         static void Main(string[] args)
         {
-            if (args.Length == 0)
-            {
-                return;
-            }
-
-            WriteEveryThirdFileToFile(args[0]);
+           
+            WriteEveryThirdFileToFile(1);
             GetAllFileSizes();
         }
 
         private static void GetAllFileSizes()
         {
-            // TODO: Implement functionality
+            long accountsTotalSize = 0;
+            using (var connection = new SQLiteConnection("data source=testdb.sqlite"))
+            {
+                var accountsData = connection.Query<BusinessObjects.Document>($"SELECT * FROM Document");
+                foreach (var accountData in accountsData)
+                {
+                    long accountLength = new FileInfo(accountData.FilePath).Length;
+                    accountsTotalSize = accountLength + accountsTotalSize;
+                }
+                Console.WriteLine($"Size of all files: {accountsTotalSize / (1024 * 1024)} Mb");
+
+            }
         }
 
-        private static void WriteEveryThirdFileToFile(string accountId)
+        private static void WriteEveryThirdFileToFile(int accountId)
         {
-            // TODO: Implement functionality
+            using (var connection = new SQLiteConnection("data source=testdb.sqlite"))
+            {
+                var accountsData = connection.Query<BusinessObjects.Document> ($"SELECT * FROM Document WHERE AccountId = {accountId}");
+                foreach (var accountData in accountsData)
+                {
+                    string accountFileContent = File.ReadAllText(accountData.FilePath);
+                    bool containsString = accountFileContent.Contains("test") ? true : false;
+                    if (containsString) File.WriteAllText($"Account-{accountData.Id}.txt", accountFileContent);
+                }
+                
+            }
+                
         }
     }
 }
