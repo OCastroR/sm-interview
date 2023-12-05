@@ -8,5 +8,6 @@ namespace SmartVault.Program.BusinessObjects
 {
     public partial class Account
     {
+        public DateTime createdOn { get; set; }
     }
 }

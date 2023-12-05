@@ -8,12 +8,13 @@
 		<property name="AccountId" type="int" />
 	</propertyGroup>
 	<script>
-		CREATE TABLE Document (
-			Id INTEGER PRIMARY KEY,
-			Name TEXT,
-			FilePath TEXT,
-			Length INTEGER,
-			AccountId INTEGER
-		);
-	</script>
+    CREATE TABLE Document (
+    Id INTEGER PRIMARY KEY,
+    Name TEXT,
+    FilePath TEXT,
+    Length INTEGER,
+    AccountId INTEGER,
+    CreatedOn DATETIME
+    );
+  </script>
 </businessObject>

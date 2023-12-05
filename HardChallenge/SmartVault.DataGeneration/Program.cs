@@ -67,7 +67,7 @@ namespace SmartVault.DataGeneration
                             command.Connection = connection;
                             command.Transaction = transaction;
 
-                            command.CommandText = @"INSERT INTO Document (Id, Name, FilePath, Length, AccountId) VALUES ($Id, $Name, $FilePath, $Length, $AccountId)";
+                            command.CommandText = @"INSERT INTO Document (Id, Name, FilePath, Length, AccountId, CreatedOn) VALUES ($Id, $Name, $FilePath, $Length, $AccountId, $CreatedOn)";
 
                             var id = command.CreateParameter();
                             id.ParameterName = "$Id";
@@ -89,6 +89,10 @@ namespace SmartVault.DataGeneration
                             accountIdParam.ParameterName = "$AccountId";
                             command.Parameters.Add(accountIdParam);
 
+                            var createdOn = command.CreateParameter();
+                            createdOn.ParameterName = "$CreatedOn";
+                            command.Parameters.Add(createdOn);
+
                             int documentNumber = 0;
 
                             for (int i = 0; i < 100; i++)
@@ -101,6 +105,7 @@ namespace SmartVault.DataGeneration
                                     filePath.Value = documentPath;
                                     length.Value = new FileInfo(documentPath).Length;
                                     accountIdParam.Value = i;
+                                    createdOn.Value = DateTime.UtcNow;
                                     command.ExecuteNonQuery();
                                 }
                             }
@@ -130,7 +135,7 @@ namespace SmartVault.DataGeneration
                             command.Connection = connection;
                             command.Transaction = transaction;
 
-                            command.CommandText = @"INSERT INTO User (Id, FirstName, LastName, DateOfBirth, AccountId, Username, Password) VALUES ($Id, $FirstName, $LastName, $DateOfBirth, $AccountId, $Username, $Password)";
+                            command.CommandText = @"INSERT INTO User (Id, FirstName, LastName, DateOfBirth, AccountId, Username, Password, CreatedOn) VALUES ($Id, $FirstName, $LastName, $DateOfBirth, $AccountId, $Username, $Password, $CreatedOn)";
 
                             var id = command.CreateParameter();
                             id.ParameterName = "$Id";
@@ -160,6 +165,10 @@ namespace SmartVault.DataGeneration
                             password.ParameterName = "$Password";
                             command.Parameters.Add(password);
 
+                            var createdOn = command.CreateParameter();
+                            createdOn.ParameterName = "$CreatedOn";
+                            command.Parameters.Add(createdOn);
+
                             for (int i = 0; i < 100; i++)
                             {
                                 var randomDayIterator = RandomDay().GetEnumerator();
@@ -171,6 +180,7 @@ namespace SmartVault.DataGeneration
                                 accountIdParameter.Value = i;
                                 userName.Value = $"UserName-{i}";
                                 password.Value = "e10adc3949ba59abbe56e057f20f883e";
+                                createdOn.Value = DateTime.UtcNow;
                                 command.ExecuteNonQuery();
                             }
 
@@ -197,7 +207,7 @@ namespace SmartVault.DataGeneration
                     {
                         using (var transaction = connection.BeginTransaction())
                         {
-                            command.CommandText = @"INSERT INTO Account (Id, Name) VALUES ($Id, $Name)";
+                            command.CommandText = @"INSERT INTO Account (Id, Name, CreatedOn) VALUES ($Id, $Name, $CreatedOn)";
 
                             var id = command.CreateParameter();
                             id.ParameterName = "$Id";
@@ -207,10 +217,15 @@ namespace SmartVault.DataGeneration
                             name.ParameterName = "$Name";
                             command.Parameters.Add(name);
 
+                            var createdOn = command.CreateParameter();
+                            createdOn.ParameterName = "$CreatedOn";
+                            command.Parameters.Add(createdOn);
+
                             for (int i = 0; i < 100; i++)
                             {
                                 id.Value = i;
                                 name.Value = $"Account{i}";
+                                createdOn.Value = DateTime.UtcNow;
                                 command.ExecuteNonQuery();
                             }
 
