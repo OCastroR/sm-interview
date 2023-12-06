@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -10,11 +10,6 @@
     <AdditionalFiles Include="..\BusinessObjectSchema\Account.xml" />
     <AdditionalFiles Include="..\BusinessObjectSchema\Document.xml" />
     <AdditionalFiles Include="..\BusinessObjectSchema\User.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Dapper.Extensions.SQLite" Version="4.2.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
