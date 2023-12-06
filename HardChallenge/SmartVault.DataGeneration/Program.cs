@@ -1,20 +1,9 @@
-﻿using Dapper;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Configuration;
 using SmartVaul.Repository;
-using SmartVault.Library;
 using SmartVault.Repository;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.Common;
-using System.Data.Entity;
-using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.IO;
-using System.Transactions;
-using System.Xml.Serialization;
 
 namespace SmartVault.DataGeneration
 {
