@@ -1,4 +1,4 @@
-﻿using SmartVaul.Repository;
+﻿using SmartVault.BusinessLogic;
 using System;
 
 
@@ -6,8 +6,6 @@ namespace SmartVault.Program
 {
     partial class Program
     {
-        static string connectionString = "data source=testdb.sqlite";
-
         static void Main(string[] args)
         {
            
@@ -17,15 +15,15 @@ namespace SmartVault.Program
 
         private static void GetAllFileSizes()
         {
-            var documentRepository = new DocumentRepository(connectionString);
-            long totalFileSize = documentRepository.GetAllFileSizesInBytes();
+            var fileService = new FileService();
+            long totalFileSize = fileService.GetAllFileSizesInBytes();
             Console.WriteLine($"Size of all files: {totalFileSize / (1024 * 1024)} Mb");
         }
 
         private static void WriteEveryThirdFileToFile(int accountId)
         {
-            var documentRepository = new DocumentRepository(connectionString);
-            documentRepository.WriteEveryThirdFileToFile(accountId, "Smith Property");
+            var fileService = new FileService();
+            fileService.WriteEveryThirdFileToFile(accountId, "test");
 
         }
     }

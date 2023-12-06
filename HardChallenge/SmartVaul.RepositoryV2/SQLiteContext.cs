@@ -14,7 +14,15 @@ namespace SmartVault.SQLiteRepository
         public SQLiteContext(string connectionString)
         {
             _connectionString = connectionString;
-            _dbConn = new SQLiteConnection(connectionString);
+            _dbConn = new SQLiteConnection(_connectionString);
+
+            DefaultTypeMap.MatchNamesWithUnderscores = true;
+        }
+
+        public SQLiteContext()
+        {
+            _connectionString = "data source=testdb.sqlite";
+            _dbConn = new SQLiteConnection(_connectionString);
 
             DefaultTypeMap.MatchNamesWithUnderscores = true;
         }
@@ -32,12 +40,12 @@ namespace SmartVault.SQLiteRepository
             }
         }
 
-        public List<T> SelectList<T>(string sql, object parameters = null)
+        public IEnumerable<T> SelectList<T>(string sql, object parameters = null)
         {
             using (_dbConn)
             {
                 Open();
-                return _dbConn.Query<T>(sql, parameters).ToList();
+                return _dbConn.Query<T>(sql, parameters);
             }
         }
 

@@ -1,13 +1,18 @@
-﻿using System;
+﻿using SmartVaul.Repository.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using SQLiteContext = SmartVault.SQLiteRepository.SQLiteContext;
 
 namespace SmartVaul.Repository
 {
-    public class DocumentRepository : SQLiteContext
+    public class DocumentRepository : SQLiteContext, IDocumentRespository
     {
         public DocumentRepository(string connectionString) : base(connectionString)
+        {
+        }
+
+        public DocumentRepository() : base()
         {
         }
 
@@ -84,36 +89,18 @@ namespace SmartVaul.Repository
             return documentCount;
         }
 
-        public long GetAllFileSizesInBytes()
+        public IEnumerable<string> GetAllFilesPath()
         {
             var sql = @"SELECT FilePath FROM Document";
-            long accountsTotalSize = 0;
             var accountsFilePaths = SelectList<string>(sql);
-            foreach (var filePath in accountsFilePaths)
-            {
-                long accountLength = new FileInfo(filePath).Length;
-                accountsTotalSize = accountLength + accountsTotalSize;
-            }
-            return accountsTotalSize;
+            return accountsFilePaths;
         }
 
-        public void WriteEveryThirdFileToFile(int accountId, string stringToMatch)
+        public IEnumerable<(int id, string filePath)> GetFilePath(int accountId)
         {
             var sql = @"SELECT Id, FilePath FROM Document WHERE AccountId = @accountId";
-            IEnumerable<(int id, string filePath)> accountsData = SelectList<(int id, string filePath)>(sql, new { accountId });
-            int fileCounter = 0;
-            foreach (var accountData in accountsData)
-            {
-                if ((fileCounter % 3) == 0)
-                {
-                    string accountFileContent = File.ReadAllText(accountData.filePath);
-                    bool containsString = accountFileContent.Contains(stringToMatch) ? true : false;
-                    if (containsString) File.WriteAllText($"Account-{accountData.id}.txt", accountFileContent);
-                }
-
-                fileCounter++;
-            }
-
+            IEnumerable<(int id, string filePath)> documentsData = SelectList<(int id, string filePath)>(sql, new { accountId });
+            return documentsData;
         }
     }
 

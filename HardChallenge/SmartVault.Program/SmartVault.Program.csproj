@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SmartVaul.RepositoryV2\SmartVaul.Repository.csproj" />
+    <ProjectReference Include="..\SmartVault.BusinessLogic\SmartVault.BusinessLogic.csproj" />
     <ProjectReference Include="..\SmartVault.CodeGeneration\SmartVault.CodeGeneration.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
