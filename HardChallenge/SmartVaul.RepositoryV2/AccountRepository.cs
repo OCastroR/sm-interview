@@ -51,7 +51,7 @@ namespace SmartVault.Repository
             }
             catch
             {
-
+                throw;
             }
 
             return accountCount;

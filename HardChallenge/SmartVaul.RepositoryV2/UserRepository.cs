@@ -85,7 +85,7 @@ namespace SmartVaul.Repository
             }
             catch
             {
-
+                throw;
             }
 
             return userCount;

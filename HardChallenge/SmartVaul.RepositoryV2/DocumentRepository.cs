@@ -78,7 +78,7 @@ namespace SmartVaul.Repository
             }
             catch
             {
-
+                throw;
             }
 
             return documentCount;
